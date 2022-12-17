@@ -1,13 +1,12 @@
-version: '3.1'
+version: '3.8'
 
 services:
   app:
     container_name: climate-map-app
     build: .
-    env_file:
-      - ./.env.example
-      - ./.env
+    env_file: ./.env
     ports:
-      - "${DEV_PORT}:3000"
+      - '${DEV_PORT}:3000'
     volumes:
-        - .:/app:z
+      - .:/app:z
+    entrypoint: '/bin/bash /app/docker-entrypoint.sh'

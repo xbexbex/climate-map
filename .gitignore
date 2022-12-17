@@ -2,8 +2,6 @@
 scripts/**/scratch/
 scripts/**/tiles/
 
-#symlink now:
-src/map/map.ts
 
 dist/
 
@@ -121,4 +119,17 @@ yarn-error.log*
 # Local Netlify folder
 .netlify
 
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
 /temp
+
+.env
+
+out
+

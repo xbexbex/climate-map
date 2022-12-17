@@ -1,156 +1,68 @@
-import React from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import {
-  createStyles,
-  alpha,
-  Theme,
-  makeStyles,
-} from "@material-ui/core/styles";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-import { Link } from "react-router-dom";
+'use client'
 
-import Logo from "../../logo.svg";
-import { NavBarSearch } from "./NavBarSearch";
-import ProfileMenu from "./ProfileMenu";
-import ActionButtons from "./ActionButtons";
-import { UserContext } from "../User";
-import { StateContext } from "../State";
+import React from 'react'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import IconButton from '@mui/material/IconButton'
+import { Box, styled } from '@mui/material'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
+import Link from 'next/link'
+import Image from 'next/image'
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    menuContainer: {
-      margin: `0 17px 0 12px`,
-    },
-    root: {
-      flexGrow: 1,
-    },
-    leftWrapper: {},
-    menuIcon: {
-      marginRight: theme.spacing(4),
-      marginLeft: theme.spacing(2),
-      padding: "0 5px 0 5px",
-    },
-    helpWrapper: {
-      position: "relative",
-      marginRight: theme.spacing(2),
-      marginLeft: 0,
-      width: "100%",
-    },
-    helpIcon: {
-      padding: 0,
-      margin: "0 0 0 10px",
-    },
-    HelpOutlineIcon: {},
-    appBar: {
-      zIndex: theme.zIndex.appBar,
-    },
-    title: {
-      flexGrow: 1,
-      marginLeft: theme.spacing(2),
-      display: "none",
-      minWidth: 100,
-      [theme.breakpoints.up("sm")]: {
-        display: "block",
-      },
-    },
-    search: {
-      position: "relative",
-      borderRadius: theme.shape.borderRadius,
-      backgroundColor: alpha(theme.palette.common.white, 0.15),
-      "&:hover": {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-      },
-      marginLeft: 0,
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
-        marginLeft: theme.spacing(1),
-        width: "auto",
-      },
-    },
-    searchIcon: {
-      width: theme.spacing(7),
-      height: "100%",
-      position: "absolute",
-      pointerEvents: "none",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    inputRoot: {
-      color: "inherit",
-    },
-    inputInput: {
-      padding: theme.spacing(1, 1, 1, 7),
-      transition: theme.transitions.create("width"),
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
-        width: 120,
-        "&:focus": {
-          width: 200,
-        },
-      },
-    },
-    logo: {
-      width: 160,
-      padding: "8px 0 0 0",
-    },
-    toolBar: {
-      padding: 0,
-      height: 64,
-    },
-  })
-);
+import { NavBarSearch } from './NavBarSearch'
+// import ProfileMenu from './ProfileMenu'
+import ActionButtons from './ActionButtons'
+// import { UserStateContext, UiStateContext } from '#/components/State'
+import { UiStateContext } from '#/components/State'
 
-const NavBar = () => {
-  const classes = useStyles({});
-  const {
-    isSidebarOpen,
-    setIsSidebarOpen,
-    isSidebarDisabled,
-  }: any = React.useContext(StateContext);
-  const { isLoggedIn }: any = React.useContext(UserContext);
+export const NavBar = () => {
+  const { isSidebarOpen, setIsSidebarOpen, isSidebarDisabled }: any = React.useContext(UiStateContext)
+  // const { isLoggedIn }: any = React.useContext(UserStateContext)
 
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+    setIsSidebarOpen(!isSidebarOpen)
+  }
 
   return (
-    <AppBar position="fixed" className={classes.appBar}>
-      <Toolbar className={classes.toolBar}>
+    <AppBar position="fixed" color="inherit" sx={(theme) => ({ zIndex: theme.zIndex.appBar })}>
+      <Toolbar sx={{ padding: 0, height: 64 }}>
         <IconButton
           onClick={toggleSidebar}
           edge="start"
-          className={classes.menuIcon}
+          sx={(theme) => ({ marginRight: theme.spacing(4), marginLeft: theme.spacing(2), padding: '0 5px 0 5px' })}
           color="inherit"
           aria-label="open drawer"
           disabled={isSidebarDisabled}
+          size="large"
         >
           {isSidebarOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
         </IconButton>
 
-        <Link to="/" className="neutral-link">
-          <img className={classes.logo} src={Logo} alt="Logo" />
+        <Link href="/" className="neutral-link">
+          <ImageWrapper>
+            <Image src={'/img/logo.svg'} alt="Logo" width={160} height={100}/>
+          </ImageWrapper>
         </Link>
 
-        <div className={classes.helpWrapper}>
+        <Box sx={(theme) => ({ position: 'relative', marginRight: theme.spacing(2), marginLeft: 0, width: '100%' })}>
           <a href="https://about.map.avoin.org">
-            <IconButton className={classes.helpIcon} color="inherit">
-              <HelpOutlineIcon className={classes.HelpOutlineIcon} />
+            <IconButton sx={{ padding: 0, margin: '0 0 0 10px' }} color="inherit" size="large">
+              <HelpOutlineIcon />
             </IconButton>
           </a>
-        </div>
+        </Box>
 
         <NavBarSearch />
 
-        <div className={classes.menuContainer}>
-          {isLoggedIn ? <ProfileMenu /> : <ActionButtons />}
-        </div>
+        {/* <Box sx={{ margin: `0 17px 0 12px` }}>{isLoggedIn ? <ProfileMenu /> : <ActionButtons />}</Box> */}
+        <Box sx={{ margin: `0 17px 0 12px` }}>{<ActionButtons />}</Box>
       </Toolbar>
     </AppBar>
-  );
-};
-export default NavBar;
+  )
+}
+
+const ImageWrapper = styled('div')({
+  padding: '8px 0 0 0',
+})

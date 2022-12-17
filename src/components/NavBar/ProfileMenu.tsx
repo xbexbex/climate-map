@@ -1,108 +1,76 @@
-import React from "react";
-import Menu from "@material-ui/core/Menu";
-import { withStyles } from "@material-ui/core/styles";
-import MenuItem from "@material-ui/core/MenuItem";
-import IconButton from "@material-ui/core/IconButton";
-import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import React from 'react'
+import { Menu } from '@mui/material'
+import MenuItem from '@mui/material/MenuItem'
+import IconButton from '@mui/material/IconButton'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 
-import { UserContext } from "../User";
-import { StateContext } from "../State";
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    iconContainer: {
-      margin: `0 ${theme.spacing(2)} 0 0`,
-    },
-    icon: {
-      fontSize: "2rem",
-    },
-    buttonContainer: {
-      display: "flex",
-    },
-    button: {
-      height: 40,
-      display: "inline",
-      width: 85,
-      margin: "0 0 0 10px",
-      fontSize: 12,
-    },
-  })
-);
-
-const StyledMenu = withStyles({
-  paper: {
-    width: 200,
-  },
-})((props: any) => (
-  <Menu
-    getContentAnchorEl={null}
-    keepMounted
-    anchorOrigin={{
-      vertical: "bottom",
-      horizontal: "right",
-    }}
-    transformOrigin={{
-      vertical: -15,
-      horizontal: "center",
-    }}
-    marginThreshold={0}
-    {...props}
-  />
-));
+// import { UserStateContext, UiStateContext } from '#/components/State'
+import { UiStateContext } from '#/components/State'
 
 const ProfileMenu = () => {
-  const classes = useStyles({});
-  const { logout }: any = React.useContext(UserContext);
-  const {
-    setModalState
-  }: any = React.useContext(StateContext);
+  // const { logout }: any = React.useContext(UserStateContext)
+  const { setModalState }: any = React.useContext(UiStateContext)
 
-  const [menuAnchorEl, setMenuAnchorEl] = React.useState(null);
+  const [menuAnchorEl, setMenuAnchorEl] = React.useState(null)
 
-  const handleMenuClick = (event) => {
+  const handleMenuClick = (event: any) => {
     if (menuAnchorEl) {
-      handleMenuClose();
+      handleMenuClose()
     } else {
-      setMenuAnchorEl(event.currentTarget);
+      setMenuAnchorEl(event.currentTarget)
     }
-  };
+  }
 
   const handleMenuClose = () => {
-    setMenuAnchorEl(null);
-  };
+    setMenuAnchorEl(null)
+  }
 
   const handleLogOut = () => {
-    handleMenuClose();
-    setModalState("none");
-    logout();
-  };
+    handleMenuClose()
+    setModalState('none')
+    // logout()
+  }
 
   return (
     <>
       <IconButton
-        className={classes.iconContainer}
+        sx={(theme) => ({ margin: `0 ${theme.spacing(2)} 0 0` })}
         aria-label="display more actions"
         aria-controls="actions-menu"
         aria-haspopup="true"
         onClick={handleMenuClick}
         color="inherit"
+        size="large"
       >
-        <AccountCircleIcon className={classes.icon} />
+        <AccountCircleIcon
+          sx={{
+            fontSize: '2rem',
+          }}
+        />
       </IconButton>
-      <StyledMenu
+      <Menu
+        sx={{ paper: { width: 200 } }}
+        keepMounted
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: -15,
+          horizontal: 'center',
+        }}
+        marginThreshold={0}
         id="actions-menu"
         anchorEl={menuAnchorEl}
-        keepMounted
         open={Boolean(menuAnchorEl)}
         onClose={handleMenuClose}
       >
         <MenuItem id="btn-logout" onClick={handleLogOut}>
           Log out
         </MenuItem>
-      </StyledMenu>
+      </Menu>
     </>
-  );
-};
+  )
+}
 
-export default ProfileMenu;
+export default ProfileMenu

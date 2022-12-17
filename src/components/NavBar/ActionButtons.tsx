@@ -1,63 +1,59 @@
-import React from "react";
-import Button from "@material-ui/core/Button";
-import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
-import { StateContext } from "../State";
+'use client'
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    buttonContainer: {
-      display: "flex",
-      overflow: "visible",
-    },
-    button: {
-      height: 40,
-      display: "inline",
-      width: 90,
-      margin: "0 0 0 10px",
-      fontSize: "0.9rem",
-    },
-  })
-);
+import React from 'react'
+import Button from '@mui/material/Button'
+import { Box, styled } from '@mui/material'
+import { UiStateContext } from '../State'
 
 const ActionButtons = () => {
-  const classes = useStyles({});
-  const { modalState, setModalState }: any = React.useContext(StateContext);
+  const { modalState, setModalState }: any = React.useContext(UiStateContext)
 
   const handleLoginClick = () => {
-    if (modalState === "login") {
-      setModalState("none");
+    if (modalState === 'login') {
+      setModalState('none')
     } else {
-      setModalState("login");
+      setModalState('login')
     }
-  };
+  }
 
   const handleSignupClick = () => {
-    if (modalState === "signup") {
-      setModalState("none");
+    if (modalState === 'signup') {
+      setModalState('none')
     } else {
-      setModalState("signup");
+      setModalState('signup')
     }
-  };
+  }
 
   return (
-    <div className={classes.buttonContainer}>
-      <Button
-        className={classes.button}
+    <Box sx={{ display: 'flex', overflow: 'visible' }}>
+      <ActionButton
+        color="secondary"
         onClick={handleSignupClick}
-        variant={modalState === "signup" ? "contained" : "outlined"}
+        variant={modalState === 'signup' ? 'contained' : 'outlined'}
         disableElevation
+        disabled={true}
       >
         Sign up
-      </Button>
-      <Button
-        className={classes.button}
+      </ActionButton>
+      <ActionButton
+        color="secondary"
         onClick={handleLoginClick}
-        variant={modalState === "login" ? "contained" : "outlined"}
+        variant={modalState === 'login' ? 'contained' : 'outlined'}
         disableElevation
+        disabled={true}
       >
         Log in
-      </Button>
-    </div>
-  );
-};
-export default ActionButtons;
+      </ActionButton>
+    </Box>
+  )
+}
+
+const ActionButton = styled(Button)({
+  height: 40,
+  display: 'inline',
+  width: 90,
+  margin: '0 0 0 10px',
+  fontSize: '0.9rem',
+})
+
+export default ActionButtons

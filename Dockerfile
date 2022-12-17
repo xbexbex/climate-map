@@ -1,9 +1,9 @@
-FROM node:16
-RUN mkdir -p /app/node_modules
+FROM node:18
+
+RUN corepack enable
+RUN yarn set version stable
 
 WORKDIR /app
-COPY package*.json yarn.lock? /app/
-RUN yarn install
 
 USER node
 
